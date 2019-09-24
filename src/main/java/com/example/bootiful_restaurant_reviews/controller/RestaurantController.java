@@ -5,8 +5,6 @@ import com.example.bootiful_restaurant_reviews.service.RestaurantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
@@ -43,7 +41,7 @@ public class RestaurantController {
     @DeleteMapping("/restaurants/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRestaurant(@PathVariable Long id) {
-        restaurantService.deleteRestaurant(id);
+        restaurantService.deleteRestaurantById(id);
     }
 
 }

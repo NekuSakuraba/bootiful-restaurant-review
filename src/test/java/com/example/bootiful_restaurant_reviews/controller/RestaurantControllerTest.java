@@ -14,8 +14,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -74,6 +77,8 @@ public class RestaurantControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post(uri).contentType(APPLICATION_JSON_UTF8).content("{}"))
                 .andExpect(status().isCreated());
+
+        verify(restaurantService, times(1)).createRestaurant(any());
     }
 
     @Test
@@ -82,6 +87,8 @@ public class RestaurantControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.put(uri).contentType(APPLICATION_JSON_UTF8).content("{}"))
                 .andExpect(status().isNoContent());
+
+        verify(restaurantService, times(1)).updateRestaurant(any());
     }
 
     @Test
@@ -90,6 +97,8 @@ public class RestaurantControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete(uri))
                 .andExpect(status().isNoContent());
+
+        verify(restaurantService, times(1)).deleteRestaurantById(1L);
     }
 
 }
