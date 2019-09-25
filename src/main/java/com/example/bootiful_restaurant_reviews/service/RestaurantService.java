@@ -3,13 +3,15 @@ package com.example.bootiful_restaurant_reviews.service;
 import com.example.bootiful_restaurant_reviews.exception.RestaurantNotFoundException;
 import com.example.bootiful_restaurant_reviews.model.Restaurant;
 import com.example.bootiful_restaurant_reviews.repository.RestaurantRepository;
-import org.mockito.BDDMockito;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
+    @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }

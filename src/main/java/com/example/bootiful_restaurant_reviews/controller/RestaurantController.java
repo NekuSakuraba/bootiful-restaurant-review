@@ -2,6 +2,7 @@ package com.example.bootiful_restaurant_reviews.controller;
 
 import com.example.bootiful_restaurant_reviews.model.Restaurant;
 import com.example.bootiful_restaurant_reviews.service.RestaurantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
+    @Autowired
     public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
