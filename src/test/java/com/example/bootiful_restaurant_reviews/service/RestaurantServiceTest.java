@@ -89,10 +89,25 @@ public class RestaurantServiceTest {
     }
 
     @Test
-    public void testDeleteRestaurantById() {
+    public void testDeleteRestaurantByIdGivenExistsByIdThenShouldCallDeleteById() {
+        given(restaurantRepository.existsById(anyLong()))
+                .willReturn(true);
+
         restaurantService.deleteRestaurantById(1L);
 
+        verify(restaurantRepository, times(1)).existsById(1L);
         verify(restaurantRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void testDeleteRestaurantByIdGivenNotExistsByIdThenShouldNotCallDeleteById() {
+        given(restaurantRepository.existsById(anyLong()))
+                .willReturn(false);
+
+        restaurantService.deleteRestaurantById(1L);
+
+        verify(restaurantRepository, times(1)).existsById(1L);
+        verify(restaurantRepository, times(0)).deleteById(1L);
     }
 
 }
