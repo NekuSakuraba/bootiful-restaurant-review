@@ -2,6 +2,7 @@ package com.example.bootiful_restaurant_reviews.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+    @NaturalId
     private String name;
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<UserRole> users = new ArrayList<>();
