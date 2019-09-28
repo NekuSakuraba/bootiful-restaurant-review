@@ -7,12 +7,14 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static javax.persistence.GenerationType.*;
+
 @Data
 @NoArgsConstructor
 @Entity
 public class Role {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)

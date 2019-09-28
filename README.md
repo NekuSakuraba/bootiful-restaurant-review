@@ -1,2 +1,2 @@
-# bootiful-restaurant-review
+# Bootiful Restaurant Review [![Build Status](https://travis-ci.org/NekuSakuraba/bootiful-restaurant-review.svg?branch=master)](https://travis-ci.org/NekuSakuraba/bootiful-restaurant-review) [![codecov](https://codecov.io/gh/NekuSakuraba/bootiful-restaurant-review/branch/master/graph/badge.svg)](https://codecov.io/gh/NekuSakuraba/bootiful-restaurant-review)
 A restaurant review system using spring-boot in a TDD approach
