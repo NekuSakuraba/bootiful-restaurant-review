@@ -47,8 +47,8 @@ public class UserRoleJpaTest {
     public void testUserRoleMapping() {
         capture.reset();
 
-        john.addRole(roleAdmin);
-        john.addRole(roleUser);
+        john.addRole(roleAdmin)
+                .addRole(roleUser);
         jane.addRole(roleUser);
         testEntityManager.flush();
 
@@ -59,6 +59,7 @@ public class UserRoleJpaTest {
         john.removeRole(roleUser);
         testEntityManager.flush();
 
+        assertThat(capture.toString().split("\n").length).isEqualTo(1);
         assertThat(capture.toString()).contains("delete from users_roles where user_id=? and role_id=?");
     }
 

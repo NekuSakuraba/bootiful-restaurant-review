@@ -32,18 +32,20 @@ public class User {
         this.email = email;
     }
 
-    public void addRole(Role role) {
+    public User addRole(Role role) {
         UserRole userRole = new UserRole(this, role);
         role.getUsers().add(userRole);
         roles.add(userRole);
+        return this;
     }
 
-    public void removeRole(Role role) {
+    public User removeRole(Role role) {
         UserRole userRole = new UserRole(this, role);
         role.getUsers().remove(userRole);
         roles.remove(userRole);
 
         userRole.setRole(null);
         userRole.setUser(null);
+        return this;
     }
 }
