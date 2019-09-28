@@ -2,20 +2,24 @@ package com.example.bootiful_restaurant_reviews.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @NoArgsConstructor
 @Entity
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String username;
     private String password;
+    @NaturalId
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
