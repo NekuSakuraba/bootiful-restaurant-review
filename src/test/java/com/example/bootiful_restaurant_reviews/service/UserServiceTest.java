@@ -1,5 +1,6 @@
 package com.example.bootiful_restaurant_reviews.service;
 
+import com.example.bootiful_restaurant_reviews.dto.UserDto;
 import com.example.bootiful_restaurant_reviews.exception.UserAlreadyExistsException;
 import com.example.bootiful_restaurant_reviews.model.Role;
 import com.example.bootiful_restaurant_reviews.model.User;
@@ -31,57 +32,31 @@ public class UserServiceTest {
 
     @Test
     public void createUserShouldReturnPersistedUser() {
-        Role roleUser = new Role(1L, "ROLE_USER");
-
         given(roleRepository.findByName(anyString()))
-                .willReturn(roleUser);
+                .willReturn(new Role(1L, "ROLE_USER"));
 
         given(userRepository.save(any(User.class)))
                 .willReturn(
                         new User(1L, "John Doe", "MySecret", "john.doe@example.com")
-                                .addRole(roleUser));
+                                .addRole(new Role(1L, "ROLE_USER")));
 
-        User newUser = userService
-                .createUser(new User(null, "John Doe", "MySecret", "john.doe@example.com"));
+        User user = userService
+                .createUser(new UserDto("John Doe", "MySecret", "john.doe@example.com"));
 
-        assertThat(newUser.getId()).isNotNull();
-        assertThat(newUser.getId()).isEqualTo(1L);
-        assertThat(newUser.getUsername()).isEqualTo("John Doe");
+        assertThat(user.getId()).isNotNull();
+        assertThat(user.getId()).isEqualTo(1L);
+        assertThat(user.getUsername()).isEqualTo("John Doe");
 
         verify(roleRepository, times(1)).findByName(anyString());
-        verify(userRepository, times(1)).findByEmail(anyString());
+        verify(userRepository, times(1)).existsByEmail(anyString());
         verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test(expected = UserAlreadyExistsException.class)
     public void whenCreateUserGivenEmailExistsThenThrowsUserAlreadyExistsException() {
-        given(userRepository.findByEmail(anyString()))
-                .willReturn(new User(1L, "John Doe", "MySecret", "john.doe@example.com"));
+        given(userRepository.existsByEmail(anyString())).willReturn(true);
 
-        userService.createUser(new User(null,
-                "John Doe", "MySecret", "john.doe@example.com"));
-    }
-
-    @Test
-    public void whenFindByEmailGivenUserExistsThenReturnsUser() {
-        given(userRepository.findByEmail(anyString()))
-                .willReturn(new User(1L, "John Doe", "MySecret", "john.doe@example.com"));
-
-        User user = userService.findByEmail("john.doe@example.com");
-
-        assertThat(user).isNotNull();
-        assertThat(user.getId()).isEqualTo(1L);
-        assertThat(user.getUsername()).isEqualTo("John Doe");
-        assertThat(user.getPassword()).isEqualTo("MySecret");
-        verify(userRepository, times(1)).findByEmail(anyString());
-    }
-
-    @Test
-    public void whenFindByEmailGivenUserNotExistsThenReturnsNull() {
-        User user = userService.findByEmail("john.doe@example.com");
-
-        assertThat(user).isNull();
-        verify(userRepository, times(1)).findByEmail(anyString());
+        userService.createUser(new UserDto("John Doe", "MySecret", "john.doe@example.com"));
     }
 
 }

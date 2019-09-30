@@ -1,7 +1,7 @@
 package com.example.bootiful_restaurant_reviews.service;
 
+import com.example.bootiful_restaurant_reviews.dto.UserDto;
 import com.example.bootiful_restaurant_reviews.exception.UserAlreadyExistsException;
-import com.example.bootiful_restaurant_reviews.model.Role;
 import com.example.bootiful_restaurant_reviews.model.User;
 import com.example.bootiful_restaurant_reviews.repository.RoleRepository;
 import com.example.bootiful_restaurant_reviews.repository.UserRepository;
@@ -13,22 +13,22 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public User createUser(User user) {
-        if (existsUserEmail(user)) {
+    public User createUser(UserDto userDto) {
+        if (existsUserEmail(userDto)) {
             throw new UserAlreadyExistsException();
         }
 
-        Role roleUser = roleRepository.findByName("ROLE_USER");
-        user.addRole(roleUser);
+        User user = new User()
+                .addRole(roleRepository.findByName("ROLE_USER"));
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
+        user.setEmail(userDto.getEmail());
+
         return userRepository.save(user);
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    private boolean existsUserEmail(User user) {
-        return findByEmail(user.getEmail()) != null;
+    private boolean existsUserEmail(UserDto user) {
+        return userRepository.existsByEmail(user.getEmail());
     }
 
 }
